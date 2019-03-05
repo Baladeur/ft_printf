@@ -1,1 +1,10 @@
 **/*.swp
+libft/*.o
+libft/libft.a
+a.out
+fdf
+*.o
+*.swp
+.DS_Store
+.vscode
+*.dSYM
