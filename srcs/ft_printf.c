@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:52:20 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/23 19:09:39 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/23 21:59:18 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ void			ft_printf(const char *restrict format, ...)
 	if (!(args = parse(format, arglist, &len)))
 		write(2,"Parsing error\n",14);
 	else
-	if (!(res = merge(format, &len, args)))
-		write(2,"Malloc error\n",13);
-	else
-		write(1, res, len);
+	{
+		va_end(arglist);
+		if (!(res = merge(format, &len, args)))
+			write(2,"Malloc error\n",13);
+		else
+			write(1, res, len);
+	}
 }
