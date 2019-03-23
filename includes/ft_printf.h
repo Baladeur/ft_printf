@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:48:00 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/22 19:10:21 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/23 18:18:07 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct	s_printable
 	int					len_flag;
 	struct s_printable	*next;
 }				t_printable;
+
+t_printable		*parse(const char *restrict format, va_list arglist, int *len);
 
 void			ft_printf(const char *restrict format, ...);
 

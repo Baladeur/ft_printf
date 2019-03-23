@@ -8,3 +8,4 @@ fdf
 .DS_Store
 .vscode
 *.dSYM
+maintest.c

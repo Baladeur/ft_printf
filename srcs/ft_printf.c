@@ -6,25 +6,25 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:52:20 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/22 19:07:27 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/23 19:09:39 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static int		len_printable(const char *restrict format, t_printable *args)
+static int		len_modifier(t_printable *args)
 {
-	int			len;
+	int			mod;
 	t_printable	*pos;
 
-	len = ft_strlen(format);
+	mod = 0;
 	pos = args;
 	while (pos)
 	{
-		len += (pos->len_str - pos->len_flag);
+		mod += (pos->len_str - pos->len_flag);
 		pos = pos->next;
 	}
-	return (len);
+	return (mod);
 }
 
 static char*	merge(const char *restrict format, int *len, t_printable *args)
@@ -34,7 +34,7 @@ static char*	merge(const char *restrict format, int *len, t_printable *args)
 	int			c1;
 	int			c2;
 
-	*len = len_printable(format, args);
+	*len += len_modifier(args);
 	pos = args;
 	c1 = 0;
 	c2 = 0;
@@ -59,7 +59,17 @@ static char*	merge(const char *restrict format, int *len, t_printable *args)
 void			ft_printf(const char *restrict format, ...)
 {
 	t_printable	*args;
+	va_list		arglist;
+	char		*res;
 	int			len;
-	//PARSING + error checker
-	write(1, merge(format, &len, args), len);
+
+	len = 0;
+	va_start(arglist, format);
+	if (!(args = parse(format, arglist, &len)))
+		write(2,"Parsing error\n",14);
+	else
+	if (!(res = merge(format, &len, args)))
+		write(2,"Malloc error\n",13);
+	else
+		write(1, res, len);
 }
