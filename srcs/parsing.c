@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 15:52:34 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/29 15:54:53 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/29 18:40:34 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,20 @@
 static char	*convert_core(va_list arglist, t_printable *args, char *flags,
 		char id)
 {
-	if (id == '%')
-	  return (convert_char(arglist, args, flags, 0));
-	/*else if (ft_strchr("ouxX", id))
+	if (id == 'c' || id == '%')
+		return (convert_char(arglist, args, flags, id == 'c' ? 1 : 0));
+/*	else if (ft_strchr("ouxX", id))
 	  return (convert_unsigned(arglist, args, flags, id));
-	  else if (id == 'i' || id == 'd')
+	else if (id == 'i' || id == 'd')
 	  return (convert_int(arglist, args, flags));
-	  else if (id == 'f')
+	else if (id == 'f')
 	  return (convert_float(arglist, args, flags));*/
-	else if (id == 'c')
-		return (convert_char(arglist, args, flags, 1));
 	else if (id == 's')
-	  return (convert_str(arglist, args, flags));
-	/*  else if (id == 'p')
-	  return (convert_ptr(arglist, args, flags));*/
+		return (convert_str(arglist, args, flags));
+	else if (id == 'p')
+		return (convert_ptr(arglist, args, flags));
 	else
-	{
 		return (NULL);
-	}
 }
 
 static char	*identifier(const char *restrict format, va_list arglist,
