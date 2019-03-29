@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:48:00 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/23 18:18:07 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/29 14:40:57 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <stdarg.h>
 
 typedef struct	s_printable
@@ -25,6 +26,9 @@ typedef struct	s_printable
 	int					len_flag;
 	struct s_printable	*next;
 }				t_printable;
+
+char			*convert_char(va_list arglist, t_printable *args, char *flag,
+								int p);
 
 t_printable		*parse(const char *restrict format, va_list arglist, int *len);
 

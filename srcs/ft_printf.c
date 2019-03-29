@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:52:20 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/23 21:59:18 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/29 12:26:17 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int		len_modifier(t_printable *args)
 
 	mod = 0;
 	pos = args;
-	while (pos)
+	while (pos->next)
 	{
 		mod += (pos->len_str - pos->len_flag);
 		pos = pos->next;
@@ -27,7 +27,7 @@ static int		len_modifier(t_printable *args)
 	return (mod);
 }
 
-static char*	merge(const char *restrict format, int *len, t_printable *args)
+static char		*merge(const char *restrict format, int *len, t_printable *args)
 {
 	t_printable	*pos;
 	char		*printable;
@@ -42,14 +42,14 @@ static char*	merge(const char *restrict format, int *len, t_printable *args)
 		return (NULL);
 	while (format[c1])
 	{
-		if (format[c1] == '%')
+		if (format[c1] == '%' && (c1 += pos->len_flag - 1) >= 0)
 		{
 			ft_strcpy(printable + c2, pos->str);
-			c2 += pos->len_str;
-			c1 += pos->len_flag;
+			c2 += pos->len_str - 1;
 			pos = pos->next;
 		}
-		printable[c2] = format[c1];
+		else
+			printable[c2] = format[c1];
 		c2++;
 		c1++;
 	}
@@ -66,12 +66,12 @@ void			ft_printf(const char *restrict format, ...)
 	len = 0;
 	va_start(arglist, format);
 	if (!(args = parse(format, arglist, &len)))
-		write(2,"Parsing error\n",14);
+		write(2, "Parsing error\n", 14);
 	else
 	{
 		va_end(arglist);
 		if (!(res = merge(format, &len, args)))
-			write(2,"Malloc error\n",13);
+			write(2, "Malloc error\n", 13);
 		else
 			write(1, res, len);
 	}
