@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 15:52:34 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/29 14:41:27 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/29 15:54:53 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static char	*convert_core(va_list arglist, t_printable *args, char *flags,
 	  return (convert_float(arglist, args, flags));*/
 	else if (id == 'c')
 		return (convert_char(arglist, args, flags, 1));
-	/*else if (id == 's')
+	else if (id == 's')
 	  return (convert_str(arglist, args, flags));
-	  else if (id == 'p')
+	/*  else if (id == 'p')
 	  return (convert_ptr(arglist, args, flags));*/
 	else
 	{

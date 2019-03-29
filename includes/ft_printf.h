@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:48:00 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/29 14:40:57 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/29 15:56:21 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct	s_printable
 
 char			*convert_char(va_list arglist, t_printable *args, char *flag,
 								int p);
+
+char			*convert_str(va_list arglist, t_printable *args, char *flag);
 
 t_printable		*parse(const char *restrict format, va_list arglist, int *len);
 
