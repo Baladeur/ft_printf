@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:52:20 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/03 18:54:29 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/03 19:00:38 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ int				ft_printf(const char *restrict format, ...)
 			return (-1);
 		}
 		else
-			return(write(1, res, len));
+			return (write(1, res, len));
 	}
 }
