@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:48:00 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/03 14:07:37 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:53:00 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ typedef struct	s_printable
 	struct s_printable	*next;
 }				t_printable;
 
+char			*convert_unsigned(va_list arglist, t_printable *args,
+								char *flags, char id);
+
 char			*convert_char(va_list arglist, t_printable *args, char *flag,
 								int p);
 
@@ -36,6 +39,6 @@ char			*convert_ptr(va_list arglist, t_printable *args, char *flag);
 
 t_printable		*parse(const char *restrict format, va_list arglist, int *len);
 
-void			ft_printf(const char *restrict format, ...);
+int				ft_printf(const char *restrict format, ...);
 
 #endif

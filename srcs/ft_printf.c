@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:52:20 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/03/29 12:26:17 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:54:29 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char		*merge(const char *restrict format, int *len, t_printable *args)
 	return (printable);
 }
 
-void			ft_printf(const char *restrict format, ...)
+int				ft_printf(const char *restrict format, ...)
 {
 	t_printable	*args;
 	va_list		arglist;
@@ -66,13 +66,19 @@ void			ft_printf(const char *restrict format, ...)
 	len = 0;
 	va_start(arglist, format);
 	if (!(args = parse(format, arglist, &len)))
+	{
 		write(2, "Parsing error\n", 14);
+		return (-1);
+	}
 	else
 	{
 		va_end(arglist);
 		if (!(res = merge(format, &len, args)))
+		{
 			write(2, "Malloc error\n", 13);
+			return (-1);
+		}
 		else
-			write(1, res, len);
+			return(write(1, res, len));
 	}
 }
