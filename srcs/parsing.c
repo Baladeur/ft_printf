@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 15:52:34 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/03 19:00:55 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:04:57 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static char	*convert_core(va_list arglist, t_printable *args, char *flags,
 	if (id == 'c' || id == '%')
 		return (convert_char(arglist, args, flags, id == 'c' ? 1 : 0));
 	else if (ft_strchr("ouxX", id))
-	  	return (convert_unsigned(arglist, args, flags, id));
-/*	else if (id == 'i' || id == 'd')
-	  return (convert_int(arglist, args, flags));
-	else if (id == 'f')
+		return (convert_unsigned(arglist, args, flags, id));
+	else if (id == 'i' || id == 'd')
+		return (convert_int(arglist, args, flags));
+/*	else if (id == 'f')
 	  return (convert_float(arglist, args, flags));*/
 	else if (id == 's')
 		return (convert_str(arglist, args, flags));

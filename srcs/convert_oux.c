@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 18:57:57 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/04 16:27:32 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/04 17:46:37 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ static void	set_prefix(char *str, int *tab, char id, int *len)
 	if (tab[2] > 1 && tab[1])
 		str[1] = id;
 	if (tab[2] && !tab[1])
-		str[len[1] - len[0] -len[2] - tab[2]] = '0';
+		str[len[1] - len[0] - len[2] - tab[2]] = '0';
 	if (tab[2] > 1 && !tab[1])
-		str[len[1] - len[0] -len[2] - 1] = id;
+		str[len[1] - len[0] - len[2] - 1] = id;
 	if (tab[1] == '0')
 		ft_strnset(str + tab[2], '0', len[1] - len[0] - tab[2]);
 	if (tab[1] == '-' && tab[4] > 0)
@@ -121,12 +121,12 @@ char		*convert_unsigned(va_list arglist, t_printable *args, char *flags,
 		return (NULL);
 	if (!(str = ft_strmake(' ', len[1])))
 		return (NULL);
-	args->len_str = len[1];
 	if (tab[1] == '-')
 		ft_strncpy(str + tab[2] + len[2], arg, len[0]);
 	else
 		ft_strncpy(str + len[1] - len[0], arg, len[0]);
 	set_prefix(str, tab, id, len);
 	free(tab);
+	args->len_str = len[1];
 	return (str);
 }
