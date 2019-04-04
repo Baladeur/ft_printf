@@ -5,38 +5,61 @@
 #                                                     +:+ +:+         +:+      #
 #    By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/02/16 17:28:51 by tferrieu          #+#    #+#              #
-#    Updated: 2019/04/03 14:13:11 by tferrieu         ###   ########.fr        #
+#    Created: 2018/11/07 13:50:26 by tferrieu          #+#    #+#              #
+#    Updated: 2019/04/04 19:19:23 by tferrieu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	libftprintf.a
+SRC-C	=	./libft/biggest_int.c \
+			./libft/ft_abs.c \
+			./libft/ft_atoi.c \
+			./libft/ft_getbase.c \
+			./libft/ft_getpow.c \
+			./libft/ft_isdigit.c \
+			./libft/ft_itobase.c \
+			./libft/ft_strchr.c \
+			./libft/ft_strcpy.c \
+			./libft/ft_strdup.c \
+			./libft/ft_strnew.c \
+			./libft/ft_strnset.c \
+			./srcs/ft_printf.c \
+			./srcs/parsing.c \
+			./srcs/convert_csp.c \
+			./srcs/convert_int.c \
+			./srcs/convert_oux.c 
 
-LIB			=	./Libft/libft.a
+SRC-O	=	biggest_int.o \
+			ft_abs.o \
+			ft_atoi.o \
+			ft_getbase.o \
+			ft_getpow.o \
+			ft_isdigit.o \
+			ft_itobase.o \
+			ft_strchr.o \
+			ft_strcpy.o \
+			ft_strdup.o \
+			ft_strnew.o \
+			ft_strnset.o \
+			ft_printf.o \
+			parsing.o \
+			convert_csp.o \
+			convert_int.o \
+			convert_oux.o
 
-SRC-C		=	./srcs/parsing.c \
-				./srcs/ft_printf.c \
-				./srcs/convert_csp.c
+NAME	=	libftprintf.a
 
-SRC-O		=	$(patsubst ./srcs/%.c, %.o, $(SRC-C))
+FLAG	=	-c -Wall -Werror -Wextra
 
-FLAG		=	-Wall -Wextra -Werror
+all :		$(NAME)
 
-all:		$(NAME)
+$(NAME) :
+			gcc $(FLAG) $(SRC-C)
+			ar rc $(NAME) $(SRC-O)
 
-$(NAME):	$(SRC-C)
-	make -C Libft
-	gcc $(FLAG) -c $(SRC-C)
-	ar rc $(NAME) $(SRC-O) $(LIB)
+clean :
+			rm -rf $(SRC-O)
 
-clean:
-	make -C Libft clean
-	rm -rf $(SRC-O)
+fclean :	clean
+			rm -rf $(NAME)
 
-fclean:
-	make -C Libft fclean
-	rm -rf $(SRC-O) $(NAME)
-
-re:			fclean all
-
-.PHONY : all clean fclean re clib fclib
+re :		fclean all
