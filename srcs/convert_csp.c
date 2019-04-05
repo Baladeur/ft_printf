@@ -6,20 +6,20 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:56:04 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/03 14:14:18 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/05 16:38:51 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static int	*scan_flags(char *flags)
+static int	*scan_flags(char *flags, int t)
 {
 	int i;
 	int	*tab;
 
 	if (!(tab = (int *)malloc(sizeof(int) * 3)))
 		return (NULL);
-	tab[0] = -1;
+	tab[0] = t;
 	tab[1] = 0;
 	tab[2] = -1;
 	i = 0;
@@ -34,7 +34,7 @@ static int	*scan_flags(char *flags)
 			tab[2] = ft_atoi(flags + i + 1);
 		else if (flags[i] == '-')
 			tab[1] = '-';
-		else if (flags[i] == '0' && tab[1] != '-' && tab[0] == -1)
+		else if (flags[i] == '0' && tab[1] != '-')
 			tab[1] = '0';
 		i++;
 	}
@@ -46,7 +46,7 @@ char		*convert_char(va_list arglist, t_printable *args, char *flag, int p)
 	char	*str;
 	int		*tab;
 
-	if (!(tab = scan_flags(flag)))
+	if (!(tab = scan_flags(flag, 1)))
 		return (NULL);
 	if (!(str = ft_strmake(' ', tab[0])))
 		return (NULL);
@@ -67,6 +67,7 @@ static char	*gather_arg(va_list arglist, int *tab, int *total_len, int *arg_len)
 	char	*arg;
 
 	str = va_arg(arglist, char *);
+	str = !str ? "(null)" : str;
 	if (tab[2] > 0 && tab[2] < (int)ft_strlen(str))
 	{
 		if (!(arg = ft_strndup(str, tab[2])))
@@ -90,7 +91,7 @@ char		*convert_str(va_list arglist, t_printable *args, char *flags)
 	int		total_len;
 	int		arg_len;
 
-	if (!(tab = scan_flags(flags)))
+	if (!(tab = scan_flags(flags, 0)))
 		return (NULL);
 	if (!(arg = gather_arg(arglist, tab, &total_len, &arg_len)))
 		return (NULL);
@@ -114,7 +115,7 @@ char		*convert_ptr(va_list arglist, t_printable *args, char *flags)
 	int		*tab;
 	int		len;
 
-	if (!(tab = scan_flags(flags)))
+	if (!(tab = scan_flags(flags, 0)))
 		return (NULL);
 	if (!(arg = ft_itobase_ll((unsigned long long int)va_arg(arglist, void *),
 							"0123456789abcdef")))

@@ -6,7 +6,7 @@
 #    By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 13:50:26 by tferrieu          #+#    #+#              #
-#    Updated: 2019/04/04 19:19:23 by tferrieu         ###   ########.fr        #
+#    Updated: 2019/04/05 16:14:04 by tferrieu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,18 @@ SRC-C	=	./libft/biggest_int.c \
 			./libft/ft_strchr.c \
 			./libft/ft_strcpy.c \
 			./libft/ft_strdup.c \
+			./libft/ft_strlen.c \
+			./libft/ft_strmake.c \
 			./libft/ft_strnew.c \
+			./libft/ft_strncpy.c \
+			./libft/ft_strndup.c \
 			./libft/ft_strnset.c \
+			./srcs/exception_handler.c \
 			./srcs/ft_printf.c \
 			./srcs/parsing.c \
 			./srcs/convert_csp.c \
 			./srcs/convert_int.c \
-			./srcs/convert_oux.c 
+			./srcs/convert_oux.c
 
 SRC-O	=	biggest_int.o \
 			ft_abs.o \
@@ -38,8 +43,13 @@ SRC-O	=	biggest_int.o \
 			ft_strchr.o \
 			ft_strcpy.o \
 			ft_strdup.o \
+			ft_strlen.o \
+			ft_strmake.o \
 			ft_strnew.o \
+			ft_strncpy.o \
+			ft_strndup.o \
 			ft_strnset.o \
+			exception_handler.o \
 			ft_printf.o \
 			parsing.o \
 			convert_csp.o \
@@ -52,14 +62,14 @@ FLAG	=	-c -Wall -Werror -Wextra
 
 all :		$(NAME)
 
-$(NAME) :
+$(NAME) :	$(SRC-C)
 			gcc $(FLAG) $(SRC-C)
 			ar rc $(NAME) $(SRC-O)
 
 clean :
-			rm -rf $(SRC-O)
+			/bin/rm -Rf $(SRC-O)
 
 fclean :	clean
-			rm -rf $(NAME)
+			/bin/rm -Rf $(NAME)
 
 re :		fclean all

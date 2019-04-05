@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 18:57:57 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/04 17:46:37 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/05 16:40:18 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	*scan_flags(char *flags, int id)
 	}
 	if (tab[2])
 	{
-		tab[2] = id == 'x' || id == 'x' ? 2 : tab[2];
+		tab[2] = id == 'x' || id == 'X' ? 2 : tab[2];
 		tab[2] = id == 'o' ? 1 : tab[2];
 	}
 	return (tab);
@@ -80,6 +80,8 @@ static char	*gather_arg(va_list arglist, int *tab, char id, int *len)
 			base) : str;
 	str = tab[3] == 'm' ? ft_itobase_ll(va_arg(arglist, unsigned long long int),
 			base) : str;
+	if (!(str = check_exception_0(str, tab, id)))
+		return (NULL);
 	len[0] = ft_strlen(str);
 	len[1] = biggest_int(3, len[0] + tab[2], tab[0], tab[4] + tab[2]);
 	len[2] = 0;

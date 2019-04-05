@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:48:00 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/04 18:52:23 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/05 16:40:43 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct	s_printable
 	int					len_flag;
 	struct s_printable	*next;
 }				t_printable;
+
+char			*check_exception_0(char *str, int *tab, char id);
 
 char			*convert_int(va_list arglist, t_printable *args, char *flags);
 
