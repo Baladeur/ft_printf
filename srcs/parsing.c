@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 15:52:34 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/07 19:28:30 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/08 15:56:49 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,46 +82,19 @@ static int	add_printable(const char *restrict format, int *len,
 	return (1);
 }
 
-static int	end_printable(t_printable **args)
+int			parse(const char *restrict format, va_list arglist, int *len,
+					t_printable **args)
 {
-	t_printable *pos;
-
-	if (!(*args))
-	{
-		if (!(*args = (t_printable *)malloc(sizeof(t_printable))))
-			return (0);
-		pos = *args;
-	}
-	else
-	{
-		pos = *args;
-		while (pos->next)
-			pos = pos->next;
-		if (!(pos->next = (t_printable *)malloc(sizeof(t_printable))))
-			return (0);
-		pos = pos->next;
-	}
-	pos->next = NULL;
-	return (1);
-}
-
-t_printable	*parse(const char *restrict format, va_list arglist, int *len)
-{
-	t_printable *args;
-
-	args = NULL;
 	while (format[*len])
 	{
 		if (format[*len] == '%')
 		{
-			if (!(add_printable(format, len, arglist, &args)))
-				return (NULL);
+			if (!(add_printable(format, len, arglist, args)))
+				return (0);
 		}
 		else
 			*len += 1;
 	}
 	va_end(arglist);
-	if (!(end_printable(&args)))
-		return (NULL);
-	return (args);
+	return (1);
 }

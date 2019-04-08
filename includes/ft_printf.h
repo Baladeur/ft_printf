@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:48:00 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/07 17:58:54 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/08 15:57:06 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ char			*convert_str(va_list arglist, t_printable *args, char *flag);
 
 char			*convert_ptr(va_list arglist, t_printable *args, char *flag);
 
-t_printable		*parse(const char *restrict format, va_list arglist, int *len);
+int				parse(const char *restrict format, va_list arglist, int *len,
+						t_printable **args);
 
 int				ft_printf(const char *restrict format, ...);
 

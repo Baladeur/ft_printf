@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:56:04 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/07 19:09:38 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/08 15:58:28 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char		*convert_str(va_list arglist, t_printable *args, char *flags)
 	else
 		ft_strncpy(str + total_len - arg_len, arg, arg_len);
 	args->len_str = total_len;
-	free (arg);
+	free(arg);
 	if (flags)
 		free(flags);
 	return (str);

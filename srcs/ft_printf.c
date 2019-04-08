@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:52:20 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/07 23:58:26 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/08 15:57:32 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int		len_modifier(t_printable *args)
 
 	mod = 0;
 	pos = args;
-	while (pos->next)
+	while (pos)
 	{
 		mod += (pos->len_str - pos->len_flag);
 		pos = pos->next;
@@ -67,7 +67,6 @@ static char		*merge(const char *restrict format, int *len, t_printable *args)
 		c2++;
 		c1++;
 	}
-	free(args);
 	return (printable);
 }
 
@@ -79,8 +78,9 @@ int				ft_printf(const char *restrict format, ...)
 	int			len;
 
 	len = 0;
+	args = NULL;
 	va_start(arglist, format);
-	if (!(args = parse(format, arglist, &len)))
+	if (!(parse(format, arglist, &len, &args)))
 	{
 		write(1, "Parsing error\n", 14);
 		return (-1);
