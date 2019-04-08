@@ -6,60 +6,27 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 18:57:57 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/07 19:09:52 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/08 20:33:36 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static void	scan_loop(int *tab, char *flags, int *i, int id)
+static char	*check_exception_0(char *str, int *tab, char id)
 {
-	tab[3] = flags[*i] == 'h' && flags[*i + 1] == 'h' && !tab[3] ? 'i' : tab[3];
-	tab[3] = flags[*i] == 'l' && flags[*i + 1] == 'l' && !tab[3] ? 'm' : tab[3];
-	tab[3] = flags[*i] == 'h' && !tab[3] ? 'h' : tab[3];
-	tab[3] = flags[*i] == 'l' && !tab[3] ? 'l' : tab[3];
-	if (flags[*i] == '-')
-		tab[1] = '-';
-	else if (flags[*i] == '0' && tab[1] == 0 && tab[4] < 0)
-		tab[1] = '0';
-	else if (flags[*i] == '#' && id != 'u')
-		tab[2] = '#';
-	else if (flags[*i] > '0' && flags[*i] <= '9')
+	if (str[0] == '0')
 	{
-		tab[0] = ft_atoi(flags + *i);
-		*i += ft_getpow(tab[0], 10) - 1;
+		if (id == 'x' || id == 'X')
+			tab[4] = 0;
+		if (!tab[1])
+		{
+			free(str);
+			if (!(str = (char *)malloc(sizeof(char))))
+				return (NULL);
+			str[0] = '\0';
+		}
 	}
-	else if (flags[*i] == '.' && flags[*i + 1] >= '0' && flags[*i + 1] <= '9')
-	{
-		tab[4] = ft_atoi(flags + *i + 1);
-		*i += ft_getpow(tab[4], 10);
-	}
-	else if (flags[*i] == '.')
-		tab[4] = 0;
-	if (tab[1] == '0' && tab[4] >= 0)
-		tab[1] = 0;
-}
-
-static void	scan_flags(char *flags, int id, int *tab)
-{
-	int i;
-
-	i = 0;
-	tab[0] = 0;
-	tab[1] = 0;
-	tab[2] = 0;
-	tab[3] = 0;
-	tab[4] = -1;
-	while (flags[i])
-	{
-		scan_loop(tab, flags, &i, id);
-		i++;
-	}
-	if (tab[2])
-	{
-		tab[2] = id == 'x' || id == 'X' ? 2 : tab[2];
-		tab[2] = id == 'o' ? 1 : tab[2];
-	}
+	return (str);
 }
 
 static char	*gather_arg(va_list arglist, int *tab, char id, int *len)
@@ -76,56 +43,52 @@ static char	*gather_arg(va_list arglist, int *tab, char id, int *len)
 			base) : str;
 	str = tab[3] == 'm' ? ft_itobase_ll(va_arg(arglist, unsigned long long int),
 			base) : str;
-	if (!(str = check_exception_0(str, tab, id)))
+	if (!str || !(str = check_exception_0(str, tab, id)))
 		return (NULL);
 	len[0] = ft_strlen(str);
-	len[1] = biggest_int(3, len[0] + tab[2], tab[0], tab[4] + tab[2]);
+	len[1] = biggest_int(3, len[0] + tab[4], tab[0], tab[1] + tab[4]);
 	len[2] = 0;
-	if (tab[4] > len[0])
-		len[2] = tab[4] - len[0];
+	if (tab[1] > len[0])
+		len[2] = tab[1] - len[0];
 	free(base);
 	return (str);
 }
 
 static void	set_prefix(char *str, int *tab, char id, int *len)
 {
-	if (tab[2] && tab[1])
+	if (tab[4] && tab[2])
 		str[0] = '0';
-	if (tab[2] > 1 && tab[1])
+	if (tab[4] > 1 && tab[2])
 		str[1] = id;
-	if (tab[2] && !tab[1])
-		str[len[1] - len[0] - len[2] - tab[2]] = '0';
-	if (tab[2] > 1 && !tab[1])
+	if (tab[4] && !tab[2])
+		str[len[1] - len[0] - len[2] - tab[4]] = '0';
+	if (tab[4] > 1 && !tab[2])
 		str[len[1] - len[0] - len[2] - 1] = id;
-	if (tab[1] == '0')
-		ft_strnset(str + tab[2], '0', len[1] - len[0] - tab[2]);
-	if (tab[1] == '-' && tab[4] > 0)
-		ft_strnset(str + tab[2], '0', len[2]);
-	else if (tab[4] > 0)
+	if (tab[2] == '0')
+		ft_strnset(str + tab[4], '0', len[1] - len[0] - tab[4]);
+	if (tab[2] == '-' && tab[1] > 0)
+		ft_strnset(str + tab[4], '0', len[2]);
+	else if (tab[1] > 0)
 		ft_strnset(str + len[1] - len[0] - len[2], '0', len[2]);
 }
 
-char		*convert_unsigned(va_list arglist, t_printable *args, char *flags,
+char		*convert_unsigned(va_list arglist, t_printable *args, int *tab,
 		char id)
 {
 	char	*str;
 	char	*arg;
-	int		tab[5];
 	int		len[3];
 
-	scan_flags(flags, id, tab);
 	if (!(arg = gather_arg(arglist, tab, id, len)))
 		return (NULL);
 	if (!(str = ft_strmake(' ', len[1])))
 		return (NULL);
-	if (tab[1] == '-')
-		ft_strncpy(str + tab[2] + len[2], arg, len[0]);
+	if (tab[2] == '-')
+		ft_strncpy(str + tab[4] + len[2], arg, len[0]);
 	else
 		ft_strncpy(str + len[1] - len[0], arg, len[0]);
 	set_prefix(str, tab, id, len);
 	args->len_str = len[1];
 	free(arg);
-	if (flags)
-		free(flags);
 	return (str);
 }

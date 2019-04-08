@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:48:00 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/08 15:57:06 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/08 19:16:27 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,20 @@ typedef struct	s_printable
 	struct s_printable	*next;
 }				t_printable;
 
-char			*check_exception_0(char *str, int *tab, char id);
+void			update_flags(const char *restrict format, int *tab, char c,
+								int *i);
 
-char			*convert_int(va_list arglist, t_printable *args, char *flags);
+char			*convert_int(va_list arglist, t_printable *args, int *tab);
 
 char			*convert_unsigned(va_list arglist, t_printable *args,
-								char *flags, char id);
+								int *tab, char id);
 
-char			*convert_char(va_list arglist, t_printable *args, char *flag,
+char			*convert_char(va_list arglist, t_printable *args, int *tab,
 								int p);
 
-char			*convert_str(va_list arglist, t_printable *args, char *flag);
+char			*convert_str(va_list arglist, t_printable *args, int *tab);
 
-char			*convert_ptr(va_list arglist, t_printable *args, char *flag);
+char			*convert_ptr(va_list arglist, t_printable *args, int *tab);
 
 int				parse(const char *restrict format, va_list arglist, int *len,
 						t_printable **args);

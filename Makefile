@@ -6,7 +6,7 @@
 #    By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 13:50:26 by tferrieu          #+#    #+#              #
-#    Updated: 2019/04/07 17:58:10 by tferrieu         ###   ########.fr        #
+#    Updated: 2019/04/08 20:33:33 by tferrieu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,12 @@ SRC-C	=	./libft/biggest_int.c \
 			./libft/ft_strndup.c \
 			./libft/ft_strnset.c \
 			./srcs/ft_printf.c \
-			./srcs/exception_handler.c \
 			./srcs/parsing.c \
-			./srcs/convert_csp.c \
+			./srcs/convert_cs.c \
 			./srcs/convert_int.c \
-			./srcs/convert_oux.c
+			./srcs/convert_oux.c \
+			./srcs/convert_p.c \
+			./srcs/scanning.c
 
 SRC-O	=	biggest_int.o \
 			ft_abs.o \
@@ -50,11 +51,12 @@ SRC-O	=	biggest_int.o \
 			ft_strndup.o \
 			ft_strnset.o \
 			ft_printf.o \
-			exception_handler.o \
 			parsing.o \
-			convert_csp.o \
+			convert_cs.o \
 			convert_int.o \
-			convert_oux.o
+			convert_oux.o \
+			convert_p.o \
+			scanning.o
 
 NAME	=	libftprintf.a
 
