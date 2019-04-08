@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 12:41:24 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/05 18:41:47 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/07 19:10:49 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ static void	scan_loop(int *tab, char *flags, int *i)
 		tab[1] = 0;
 }
 
-static int	*scan_flags(char *flags)
+static void	scan_flags(char *flags, int *tab)
 {
-	int	*tab;
 	int	i;
 
-	if (!(tab = (int *)malloc(sizeof(int) * 5)))
-		return (NULL);
 	i = 0;
 	tab[0] = 0;
 	tab[1] = 0;
@@ -58,7 +55,6 @@ static int	*scan_flags(char *flags)
 		scan_loop(tab, flags, &i);
 		i++;
 	}
-	return (tab);
 }
 
 static char	*itoa_custom(int *tab, va_list arglist)
@@ -104,11 +100,10 @@ char		*convert_int(va_list arglist, t_printable *args, char *flags)
 	char	*str;
 	char	*tmp;
 	char	*arg;
-	int		*tab;
+	int		tab[5];
 	int		len[3];
 
-	if (!(tab = scan_flags(flags)))
-		return (NULL);
+	scan_flags(flags, tab);
 	if (!(arg = gather_arg(arglist, tab, len)))
 		return (NULL);
 	if (!(str = ft_strmake(' ', len[1])))
@@ -124,6 +119,8 @@ char		*convert_int(va_list arglist, t_printable *args, char *flags)
 		ft_strnset(str + (tab[2] > 0), '0', len[2]);
 	else if (tab[4] > 0)
 		ft_strnset(str + len[1] - len[0] - len[2], '0', len[2]);
-	free(tab);
+	free(arg);
+	if (flags)
+		free(flags);
 	return (str);
 }

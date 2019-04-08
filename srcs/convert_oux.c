@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 18:57:57 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/05 16:40:18 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/07 19:09:52 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ static void	scan_loop(int *tab, char *flags, int *i, int id)
 		tab[1] = 0;
 }
 
-static int	*scan_flags(char *flags, int id)
+static void	scan_flags(char *flags, int id, int *tab)
 {
-	int	*tab;
 	int i;
 
-	if (!(tab = (int *)malloc(sizeof(int) * 5)))
-		return (NULL);
 	i = 0;
 	tab[0] = 0;
 	tab[1] = 0;
@@ -63,7 +60,6 @@ static int	*scan_flags(char *flags, int id)
 		tab[2] = id == 'x' || id == 'X' ? 2 : tab[2];
 		tab[2] = id == 'o' ? 1 : tab[2];
 	}
-	return (tab);
 }
 
 static char	*gather_arg(va_list arglist, int *tab, char id, int *len)
@@ -114,11 +110,10 @@ char		*convert_unsigned(va_list arglist, t_printable *args, char *flags,
 {
 	char	*str;
 	char	*arg;
-	int		*tab;
+	int		tab[5];
 	int		len[3];
 
-	if (!(tab = scan_flags(flags, id)))
-		return (NULL);
+	scan_flags(flags, id, tab);
 	if (!(arg = gather_arg(arglist, tab, id, len)))
 		return (NULL);
 	if (!(str = ft_strmake(' ', len[1])))
@@ -128,7 +123,9 @@ char		*convert_unsigned(va_list arglist, t_printable *args, char *flags,
 	else
 		ft_strncpy(str + len[1] - len[0], arg, len[0]);
 	set_prefix(str, tab, id, len);
-	free(tab);
 	args->len_str = len[1];
+	free(arg);
+	if (flags)
+		free(flags);
 	return (str);
 }

@@ -6,13 +6,13 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:32:23 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/05 16:37:12 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/07 17:57:11 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-char	*check_exception_0(char *str, int *tab, char id)
+char		*check_exception_0(char *str, int *tab, char id)
 {
 	if (str[0] == '0')
 	{

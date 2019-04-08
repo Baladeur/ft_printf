@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 15:52:34 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/04 20:04:24 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/07 19:28:30 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,23 @@ static char	*identifier(const char *restrict format, va_list arglist,
 		t_printable *args)
 {
 	char	*flags;
-	int		len_flag;
+	int		l;
 
-	len_flag = 1;
-	while (format[len_flag] && !(ft_strchr("cspdiouxXf%", format[len_flag])))
-		len_flag++;
-	args->len_flag = len_flag + 1;
-	if (!(flags = ft_strnew(len_flag - 1)))
+	flags = NULL;
+	l = 1;
+	while (format[l] && ft_strchr("hlL#0-+.123456789 ", format[l]))
+		l++;
+	if (!format[l] || !(ft_strchr("cspdiouxXf%hlL#0-+.123456789 ", format[l])))
+	{
+		args->len_flag = l;
+		args->len_str = 0;
+		return (ft_strnew(0));
+	}
+	args->len_flag = l + 1;
+	if (!(flags = ft_strnew(l - 1)))
 		return (NULL);
-	flags = ft_strncpy(flags, format + 1, len_flag - 1);
-	return (convert_core(arglist, args, flags, format[len_flag]));
+	flags = ft_strncpy(flags, format + 1, l - 1);
+	return (convert_core(arglist, args, flags, format[l]));
 }
 
 static int	add_printable(const char *restrict format, int *len,
@@ -54,7 +61,6 @@ static int	add_printable(const char *restrict format, int *len,
 	{
 		if (!(*args = (t_printable *)malloc(sizeof(t_printable))))
 			return (0);
-		(*args)->next = NULL;
 		pos = *args;
 	}
 	else
@@ -65,8 +71,11 @@ static int	add_printable(const char *restrict format, int *len,
 		if (!(pos->next = (t_printable *)malloc(sizeof(t_printable))))
 			return (0);
 		pos = pos->next;
-		pos->next = NULL;
 	}
+	pos->str = NULL;
+	pos->next = NULL;
+	pos->len_flag = 0;
+	pos->len_str = 0;
 	if (!(pos->str = identifier(format + *len, arglist, pos)))
 		return (0);
 	*len += pos->len_flag;

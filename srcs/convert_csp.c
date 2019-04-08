@@ -6,48 +6,44 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:56:04 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/05 16:38:51 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/07 19:09:38 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static int	*scan_flags(char *flags, int t)
+static void	scan_flags(char *flags, int t, int *tab)
 {
 	int i;
-	int	*tab;
 
-	if (!(tab = (int *)malloc(sizeof(int) * 3)))
-		return (NULL);
 	tab[0] = t;
 	tab[1] = 0;
 	tab[2] = -1;
-	i = 0;
-	while (flags[i])
+	i = -1;
+	while (flags[++i])
 	{
+		tab[2] = flags[i] == '.' ? 0 : tab[2];
+		tab[1] = flags[i] == '-' ? '-' : tab[1];
+		tab[1] = flags[i] == '0' && !tab[1] ? '0' : tab[1];
 		if (flags[i] > '0' && flags[i] <= '9' && tab[2] < 0)
 		{
 			tab[0] = ft_atoi(flags + i);
 			i += ft_getpow(tab[0], 10) - 1;
 		}
-		else if (flags[i] == '.')
+		else if (flags[i] == '.' && flags[i + 1] >= '0' && flags[i + 1] <= '9')
+		{
 			tab[2] = ft_atoi(flags + i + 1);
-		else if (flags[i] == '-')
-			tab[1] = '-';
-		else if (flags[i] == '0' && tab[1] != '-')
-			tab[1] = '0';
-		i++;
+			i += ft_getpow(tab[2], 10);
+		}
 	}
-	return (tab);
 }
 
 char		*convert_char(va_list arglist, t_printable *args, char *flag, int p)
 {
 	char	*str;
-	int		*tab;
+	int		tab[3];
 
-	if (!(tab = scan_flags(flag, 1)))
-		return (NULL);
+	scan_flags(flag, 1, tab);
 	if (!(str = ft_strmake(' ', tab[0])))
 		return (NULL);
 	if (tab[1] == '0')
@@ -57,7 +53,8 @@ char		*convert_char(va_list arglist, t_printable *args, char *flag, int p)
 	else
 		str[tab[0] - 1] = p ? va_arg(arglist, int) : '%';
 	args->len_str = tab[0];
-	free(tab);
+	if (flag)
+		free(flag);
 	return (str);
 }
 
@@ -87,12 +84,11 @@ char		*convert_str(va_list arglist, t_printable *args, char *flags)
 {
 	char	*str;
 	char	*arg;
-	int		*tab;
+	int		tab[3];
 	int		total_len;
 	int		arg_len;
 
-	if (!(tab = scan_flags(flags, 0)))
-		return (NULL);
+	scan_flags(flags, 0, tab);
 	if (!(arg = gather_arg(arglist, tab, &total_len, &arg_len)))
 		return (NULL);
 	if (!(str = ft_strmake(' ', total_len)))
@@ -104,7 +100,9 @@ char		*convert_str(va_list arglist, t_printable *args, char *flags)
 	else
 		ft_strncpy(str + total_len - arg_len, arg, arg_len);
 	args->len_str = total_len;
-	free(tab);
+	free (arg);
+	if (flags)
+		free(flags);
 	return (str);
 }
 
@@ -112,11 +110,10 @@ char		*convert_ptr(va_list arglist, t_printable *args, char *flags)
 {
 	char	*str;
 	char	*arg;
-	int		*tab;
+	int		tab[3];
 	int		len;
 
-	if (!(tab = scan_flags(flags, 0)))
-		return (NULL);
+	scan_flags(flags, 0, tab);
 	if (!(arg = ft_itobase_ll((unsigned long long int)va_arg(arglist, void *),
 							"0123456789abcdef")))
 		return (NULL);
@@ -133,6 +130,8 @@ char		*convert_ptr(va_list arglist, t_printable *args, char *flags)
 		ft_strncpy(str + 2, arg, ft_strlen(arg));
 	else
 		ft_strncpy(str + len - ft_strlen(arg), arg, ft_strlen(arg));
-	free(tab);
+	free(arg);
+	if (flags)
+		free(flags);
 	return (str);
 }

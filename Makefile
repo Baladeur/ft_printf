@@ -6,7 +6,7 @@
 #    By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 13:50:26 by tferrieu          #+#    #+#              #
-#    Updated: 2019/04/05 16:14:04 by tferrieu         ###   ########.fr        #
+#    Updated: 2019/04/07 17:58:10 by tferrieu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ SRC-C	=	./libft/biggest_int.c \
 			./libft/ft_strncpy.c \
 			./libft/ft_strndup.c \
 			./libft/ft_strnset.c \
-			./srcs/exception_handler.c \
 			./srcs/ft_printf.c \
+			./srcs/exception_handler.c \
 			./srcs/parsing.c \
 			./srcs/convert_csp.c \
 			./srcs/convert_int.c \
@@ -49,8 +49,8 @@ SRC-O	=	biggest_int.o \
 			ft_strncpy.o \
 			ft_strndup.o \
 			ft_strnset.o \
-			exception_handler.o \
 			ft_printf.o \
+			exception_handler.o \
 			parsing.o \
 			convert_csp.o \
 			convert_int.o \

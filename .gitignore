@@ -9,3 +9,4 @@ fdf
 .vscode
 *.dSYM
 maintest.c
+libftprintf.a
