@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 15:52:34 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/08 19:47:38 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/09 22:07:41 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	init_tab(int *tab)
 	tab[3] = 0;
 	tab[4] = 0;
 	tab[5] = 0;
+	tab[6] = 0;
 }
 
 static char	*convert_core(va_list arglist, t_printable *args, int *tab,
@@ -33,6 +34,8 @@ static char	*convert_core(va_list arglist, t_printable *args, int *tab,
 		return (convert_int(arglist, args, tab));
 	else if (id == 's')
 		return (convert_str(arglist, args, tab));
+	else if (id == 'f')
+		return (convert_float(arglist, args, tab));
 	else if (id == 'p')
 		return (convert_ptr(arglist, args, tab));
 	else
@@ -42,7 +45,7 @@ static char	*convert_core(va_list arglist, t_printable *args, int *tab,
 static char	*identifier(const char *restrict format, va_list arglist,
 		t_printable *args)
 {
-	int	tab[6];
+	int	tab[7];
 	int	i;
 
 	i = 1;
@@ -57,7 +60,7 @@ static char	*identifier(const char *restrict format, va_list arglist,
 	}
 	if (tab[4] && (format[i] == 'o' || format[i] == 'x' || format[i] == 'X'))
 		tab[4] = format[i] == 'o' ? 1 : 2;
-	else
+	else if (format[i] != 'f')
 		tab[4] = 0;
 	if (!tab[0] && (format[i] == 'c' || format[i] == '%'))
 		tab[0] = 1;

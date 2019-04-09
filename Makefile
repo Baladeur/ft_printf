@@ -6,7 +6,7 @@
 #    By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 13:50:26 by tferrieu          #+#    #+#              #
-#    Updated: 2019/04/08 20:33:33 by tferrieu         ###   ########.fr        #
+#    Updated: 2019/04/09 21:24:18 by tferrieu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC-C	=	./libft/biggest_int.c \
 			./libft/ft_getpow.c \
 			./libft/ft_isdigit.c \
 			./libft/ft_itobase.c \
+			./libft/ft_pow.c \
 			./libft/ft_strchr.c \
 			./libft/ft_strcpy.c \
 			./libft/ft_strdup.c \
@@ -29,6 +30,7 @@ SRC-C	=	./libft/biggest_int.c \
 			./srcs/ft_printf.c \
 			./srcs/parsing.c \
 			./srcs/convert_cs.c \
+			./srcs/convert_float.c \
 			./srcs/convert_int.c \
 			./srcs/convert_oux.c \
 			./srcs/convert_p.c \
@@ -41,6 +43,7 @@ SRC-O	=	biggest_int.o \
 			ft_getpow.o \
 			ft_isdigit.o \
 			ft_itobase.o \
+			ft_pow.o \
 			ft_strchr.o \
 			ft_strcpy.o \
 			ft_strdup.o \
@@ -53,6 +56,7 @@ SRC-O	=	biggest_int.o \
 			ft_printf.o \
 			parsing.o \
 			convert_cs.o \
+			convert_float.o \
 			convert_int.o \
 			convert_oux.o \
 			convert_p.o \

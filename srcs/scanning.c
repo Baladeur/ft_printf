@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 17:54:02 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/08 19:18:45 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/09 18:48:58 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,26 @@
 
 static void	length_modif(const char *restrict format, int *tab, char c, int *i)
 {
-	if (c == 'l')
+	if (c == 'l' && !tab[6])
+		tab[6] = 'l';
+	if (c == 'L')
+		tab[6] = 'L';
+	if (!tab[3])
 	{
-		if (format[*i + 1] == 'l')
+		if (c == 'l')
 		{
-			tab[3] = 'm';
-			*i += 1;
+			if (format[*i + 1] == 'l' && (*i += 1))
+				tab[3] = 'm';
+			else
+				tab[3] = 'l';
 		}
-		else
-			tab[3] = 'l';
-	}
-	if (c == 'h')
-	{
-		if (format[*i + 1] == 'h')
+		if (c == 'h')
 		{
-			tab[3] = 'i';
-			*i += 1;
+			if (format[*i + 1] == 'h' && (*i += 1))
+				tab[3] = 'i';
+			else
+				tab[3] = 'h';
 		}
-		else
-			tab[3] = 'h';
 	}
 }
 
@@ -59,7 +60,7 @@ void		update_flags(const char *restrict format, int *tab, char c, int *i)
 		tab[5] = ' ';
 	else if (c == '#')
 		tab[4] = '#';
-	else if ((c == 'l' || c == 'h') && !tab[3])
+	else if (c == 'l' || c == 'h' || c == 'L')
 		length_modif(format, tab, c, i);
 	*i += 1;
 }

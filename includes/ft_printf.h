@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 10:48:00 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/08 19:16:27 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/09 21:18:22 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct	s_printable
 
 void			update_flags(const char *restrict format, int *tab, char c,
 								int *i);
+
+char			*convert_float(va_list arglist, t_printable *args, int *tab);
 
 char			*convert_int(va_list arglist, t_printable *args, int *tab);
 

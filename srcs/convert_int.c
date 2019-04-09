@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 12:41:24 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/08 19:18:00 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/09 18:47:57 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static char	*gather_arg(va_list arglist, int *tab, int *len)
 char		*convert_int(va_list arglist, t_printable *args, int *tab)
 {
 	char	*str;
-	char	*tmp;
 	char	*arg;
 	int		len[3];
 
@@ -78,8 +77,8 @@ char		*convert_int(va_list arglist, t_printable *args, int *tab)
 		return (NULL);
 	if (!(str = ft_strmake(' ', len[1])))
 		return (NULL);
-	tmp = tab[2] == '-' ? str + (tab[5] > 0) + len[2] : str + len[1] - len[0];
-	ft_strncpy(tmp, arg, len[0]);
+	ft_strncpy(tab[2] == '-'
+			? str + (tab[5] > 0) + len[2] : str + len[1] - len[0], arg, len[0]);
 	str[0] = tab[5] && tab[2] ? (char)tab[5] : str[0];
 	if (tab[5] && !tab[2])
 		str[len[1] - len[0] - len[2] - 1] = (char)tab[5];
