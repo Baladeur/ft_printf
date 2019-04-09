@@ -6,20 +6,20 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 12:56:04 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/08 20:38:31 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/09 23:26:45 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static char	*gather_arg(va_list arglist, int *tab, int *total_len, int *arg_len)
+static char	*gather_arg(va_list arglist, int *tab, int *len)
 {
 	char	*str;
 	char	*arg;
 
 	str = va_arg(arglist, char *);
 	str = !str ? "(null)" : str;
-	if (tab[1] > 0 && tab[1] < (int)ft_strlen(str))
+	if (tab[1] >= 0 && tab[1] < (int)ft_strlen(str))
 	{
 		if (!(arg = ft_strndup(str, tab[1])))
 			return (NULL);
@@ -29,8 +29,8 @@ static char	*gather_arg(va_list arglist, int *tab, int *total_len, int *arg_len)
 		if (!(arg = ft_strdup(str)))
 			return (NULL);
 	}
-	*arg_len = ft_strlen(arg);
-	*total_len = *arg_len > tab[0] ? *arg_len : tab[0];
+	len[0] = ft_strlen(arg);
+	len[1] = biggest_int(2, len[0], tab[0]);
 	return (arg);
 }
 
@@ -38,20 +38,19 @@ char		*convert_str(va_list arglist, t_printable *args, int *tab)
 {
 	char	*str;
 	char	*arg;
-	int		total_len;
-	int		arg_len;
+	int		len[3];
 
-	if (!(arg = gather_arg(arglist, tab, &total_len, &arg_len)))
+	if (!(arg = gather_arg(arglist, tab, len)))
 		return (NULL);
-	if (!(str = ft_strmake(' ', total_len)))
+	if (!(str = ft_strmake(' ', len[1])))
 		return (NULL);
 	if (tab[2] == '0')
-		ft_strnset(str, '0', total_len - arg_len);
+		ft_strnset(str, '0', len[1] - len[0]);
 	if (tab[2] == '-')
-		ft_strncpy(str, arg, arg_len);
+		ft_strncpy(str, arg, len[0]);
 	else
-		ft_strncpy(str + total_len - arg_len, arg, arg_len);
-	args->len_str = total_len;
+		ft_strncpy(str + len[1] - len[0], arg, len[0]);
+	args->len_str = len[1];
 	free(arg);
 	return (str);
 }

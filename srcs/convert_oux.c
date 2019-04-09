@@ -6,19 +6,35 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 18:57:57 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/08 20:33:36 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/09 23:57:36 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static char	*check_exception_0(char *str, int *tab, char id)
+static char	*check_exception_octal(char *str, int *tab)
 {
 	if (str[0] == '0')
 	{
-		if (id == 'x' || id == 'X')
+		if (!tab[4] && !tab[1])
+		{
+			free(str);
+			if (!(str = (char *)malloc(sizeof(char))))
+				return (NULL);
+			str[0] = '\0';
+		}
+		else
 			tab[4] = 0;
-		if (!tab[1])
+	}
+	return (str);
+}
+
+static char	*check_exception_0(char *str, int *tab, char id)
+{
+	if (str[0] == '0' && id != 'o')
+	{
+		tab[4] = 0;
+		if (!tab[1] || (id == 'o' && !tab[1]))
 		{
 			free(str);
 			if (!(str = (char *)malloc(sizeof(char))))
@@ -26,6 +42,8 @@ static char	*check_exception_0(char *str, int *tab, char id)
 			str[0] = '\0';
 		}
 	}
+	else if (id == 'o')
+		str = check_exception_octal(str, tab);
 	return (str);
 }
 
@@ -37,7 +55,10 @@ static char	*gather_arg(va_list arglist, int *tab, char id, int *len)
 	base = ft_getbase(id);
 	str = NULL;
 	str = tab[3] == 'i' ? ft_itobase_hh(va_arg(arglist, int), base) : str;
-	str = tab[3] == 'h' || !(tab[3]) ? ft_itobase(va_arg(arglist, unsigned int),
+	str = tab[3] == 'h' ? ft_itobase(
+			(unsigned int)((unsigned short int)va_arg(arglist, unsigned int)),
+			base) : str;
+	str = !(tab[3]) ? ft_itobase(va_arg(arglist, unsigned int),
 			base) : str;
 	str = tab[3] == 'l' ? ft_itobase_l(va_arg(arglist, unsigned long int),
 			base) : str;
