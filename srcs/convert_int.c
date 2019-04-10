@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 12:41:24 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/09 18:47:57 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:29:32 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*check_exception_0(char *str, int *tab)
 	if (str[0] == '0')
 	{
 		if (!(tab[5] == '+' || tab[5] == ' '))
-			tab[2] = 0;
+			tab[5] = 0;
 		if (!tab[1])
 		{
 			free(str);

@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 14:28:20 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/09 22:13:48 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/10 18:37:54 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ static char	*ftoa_custom2(long long int n, int *tab, int p)
 	int		k;
 	int		i;
 
+	if (!n)
+	{
+		str = ft_strmake('0', tab[1] + 2 - !(tab[1] || tab[4]));
+		if (str[1])
+			str[1] = '.';
+		return (str);
+	}
 	if (!(str = ft_strmake(' ', p + 1 - !(tab[1] || tab[4]))))
 		return (NULL);
 	k = p;
@@ -40,23 +47,23 @@ static char	*ftoa_custom(va_list arglist, int *tab)
 	int			k;
 	int			p;
 
-	if (tab[6] == 'l')
-		n = (long double)(va_arg(arglist, double));
-	else if (tab[6] == 'L')
+	if (tab[6] == 'L')
 		n = (long double)(va_arg(arglist, long double));
 	else
-		n = (long double)((float)va_arg(arglist, double));
-	if (n < 0. && (tab[5] = '-'))
+		n = (long double)(va_arg(arglist, double));
+	if ((p = 1) > 0 && n < 0. && (tab[5] = '-'))
 		n *= -1.;
-	if (tab[1] < 0)
-		tab[1] = 6;
+	if (n >= 1.0 / 0.0 && n <= 1.0 / 0.0)
+		return (ft_strdup("inf"));
+	if (n != n)
+		return (ft_strdup("nan"));
+	tab[1] = tab[1] < 0 ? 6 : tab[1];
 	k = 0;
 	while (k < tab[1] && ++k)
 		n *= 10.;
 	if (n - (long double)((long long int)n) > 0.5)
 		n += 1.;
 	tmp = n;
-	p = 1;
 	while (tmp >= 10. && ++p)
 		tmp /= 10.;
 	return (ftoa_custom2((long long int)n, tab, p));

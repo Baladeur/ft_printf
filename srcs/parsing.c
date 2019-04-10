@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 15:52:34 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/09 22:07:41 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:33:47 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*identifier(const char *restrict format, va_list arglist,
 		tab[4] = 0;
 	if (!tab[0] && (format[i] == 'c' || format[i] == '%'))
 		tab[0] = 1;
-	if (tab[2] == '0' && tab[1] >= 0)
+	if (tab[2] == '0' && tab[1] >= 0 && format[i] != 'f')
 		tab[2] = 0;
 	args->len_flag = i + 1;
 	return (convert_core(arglist, args, tab, format[i]));

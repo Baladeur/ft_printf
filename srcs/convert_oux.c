@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 18:57:57 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/04/09 23:57:36 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/04/10 16:04:18 by tferrieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static char	*check_exception_octal(char *str, int *tab)
 		else
 			tab[4] = 0;
 	}
+	else if (tab[4] && tab[1] > (int)ft_strlen(str))
+		tab[1] -= 1;
 	return (str);
 }
 
